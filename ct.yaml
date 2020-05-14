@@ -1,0 +1,4 @@
+remote: origin
+chart-dirs:
+  - charts
+helm-extra-args: --timeout=10m --set customResourceDefinitions.create=false
