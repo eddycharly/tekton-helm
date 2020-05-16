@@ -1,0 +1,72 @@
+apiVersion: v1
+data: null
+kind: ConfigMap
+metadata:
+  name: {{ template "pipeline.fullname" . }}-artifact-bucket
+  labels:
+    {{- include "pipeline.baseLabels" . | nindent 4 }}
+    {{- include "pipeline.helmLabels" . | nindent 4 }}
+data:
+{{ .Values.config.artifactBucket | toYaml | indent 2 }}
+---
+apiVersion: v1
+data: null
+kind: ConfigMap
+metadata:
+  name: {{ template "pipeline.fullname" . }}-artifact-pvc
+  labels:
+    {{- include "pipeline.baseLabels" . | nindent 4 }}
+    {{- include "pipeline.helmLabels" . | nindent 4 }}
+data:
+{{ .Values.config.artifactPvc | toYaml | indent 2 }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  # name: {{ template "pipeline.fullname" . }}-defaults
+  name: config-defaults
+  labels:
+    {{- include "pipeline.baseLabels" . | nindent 4 }}
+    {{- include "pipeline.helmLabels" . | nindent 4 }}
+data:
+{{ .Values.config.defaults | toYaml | indent 2 }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "pipeline.fullname" . }}-feature-flags
+  labels:
+    {{- include "pipeline.baseLabels" . | nindent 4 }}
+    {{- include "pipeline.helmLabels" . | nindent 4 }}
+data:
+{{ .Values.config.featureFlags | toYaml | indent 2 }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "pipeline.fullname" . }}-leader-election
+  labels:
+    {{- include "pipeline.baseLabels" . | nindent 4 }}
+    {{- include "pipeline.helmLabels" . | nindent 4 }}
+data:
+{{ .Values.config.leaderElection | toYaml | indent 2 }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "pipeline.fullname" . }}-logging
+  labels:
+    {{- include "pipeline.baseLabels" . | nindent 4 }}
+    {{- include "pipeline.helmLabels" . | nindent 4 }}
+data:
+{{ .Values.config.logging | toYaml | indent 2 }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "pipeline.fullname" . }}-observability
+  labels:
+    {{- include "pipeline.baseLabels" . | nindent 4 }}
+    {{- include "pipeline.helmLabels" . | nindent 4 }}
+data:
+{{ .Values.config.observability | toYaml | indent 2 }}

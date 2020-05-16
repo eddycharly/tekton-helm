@@ -1,0 +1,59 @@
+apiVersion: admissionregistration.k8s.io/v1beta1
+kind: ValidatingWebhookConfiguration
+metadata:
+  name: validation.webhook.pipeline.tekton.dev
+  labels:
+    {{- include "pipeline.baseLabels" . | nindent 4 }}
+    {{- include "pipeline.baseLabels" . | nindent 4 }}
+    {{- include "pipeline.componentLabels" "webhook" | nindent 4 }}
+webhooks:
+  - name: validation.webhook.pipeline.tekton.dev
+    admissionReviewVersions:
+      - v1beta1
+    clientConfig:
+      service:
+        name: {{ template "pipeline.fullname" . }}-webhook
+        namespace: {{ .Release.Namespace }}
+    failurePolicy: Fail
+    sideEffects: None
+---
+apiVersion: admissionregistration.k8s.io/v1beta1
+kind: MutatingWebhookConfiguration
+metadata:
+  name: webhook.pipeline.tekton.dev
+  labels:
+    {{- include "pipeline.baseLabels" . | nindent 4 }}
+    {{- include "pipeline.helmLabels" . | nindent 4 }}
+    {{- include "pipeline.componentLabels" "webhook" | nindent 4 }}
+webhooks:
+  - name: webhook.pipeline.tekton.dev
+    admissionReviewVersions:
+      - v1beta1
+    clientConfig:
+      service:
+        name: {{ template "pipeline.fullname" . }}-webhook
+        namespace: {{ .Release.Namespace }}
+    failurePolicy: Fail
+    sideEffects: None
+---
+apiVersion: admissionregistration.k8s.io/v1beta1
+kind: ValidatingWebhookConfiguration
+metadata:
+  name: config.webhook.pipeline.tekton.dev
+  labels:
+    {{- include "pipeline.baseLabels" . | nindent 4 }}
+    {{- include "pipeline.helmLabels" . | nindent 4 }}
+    {{- include "pipeline.componentLabels" "webhook" | nindent 4 }}
+webhooks:
+  - name: config.webhook.pipeline.tekton.dev
+    admissionReviewVersions:
+      - v1beta1
+    clientConfig:
+      service:
+        name: {{ template "pipeline.fullname" . }}-webhook
+        namespace: {{ .Release.Namespace }}
+    failurePolicy: Fail
+    sideEffects: None
+    objectSelector:
+      matchLabels:
+        {{- include "pipeline.baseLabels" . | nindent 8 }}
