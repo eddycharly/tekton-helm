@@ -1,4 +1,4 @@
-name: Release Charts
+name: Push release
 
 on:
   push:
@@ -11,16 +11,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-
       - name: Fetch history
         run: git fetch --prune --unshallow
-
-      - name: Configure Git
+      - name: Configure git
         run: |
           git config user.name "$GITHUB_ACTOR"
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
-
-      - name: Run chart-releaser
+      - name: Release
         uses: helm/chart-releaser-action@v1.0.0-rc.2
         env:
           CR_TOKEN: "${{ secrets.CR_TOKEN }}"
