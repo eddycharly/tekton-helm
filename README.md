@@ -18,9 +18,9 @@ The following charts are available, please look in the chart directories for the
 
 | Tekton chart | Chart link |
 |---|---|
-| Tekton Pipelines | [chart documentation](./pipeline/README.md) |
-| Tekton Dashboard | [chart documentation](./dashboard/README.md) |
-| Tekton Triggers | [chart documentation](./triggers/README.md) |
+| Tekton Pipelines | [chart documentation](./charts/pipeline/README.md) |
+| Tekton Dashboard | [chart documentation](./charts/dashboard/README.md) |
+| Tekton Triggers | [chart documentation](./charts/triggers/README.md) |
 
 ## Charts versioning
 
@@ -28,7 +28,7 @@ Charts versions use the same major and minor version as the Tekton target compon
 
 Patch is kept to increment on bug fixes or chart improvements.
 
-In any case, the `appVersion` in the chart description is set to the exact version of the full Tekton target component.
+In any case, the `appVersion` in the chart description is set to the exact version of the Tekton target component.
 
 ## Kubernetes Versions
 
