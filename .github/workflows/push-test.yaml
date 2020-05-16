@@ -1,10 +1,10 @@
-name: Push lint
+name: Push test
 
 on:
   push:
 
 jobs:
-  lint:
+  test:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -13,8 +13,7 @@ jobs:
       - name: Fetch history
         run: git fetch --prune --unshallow
 
-      - name: Lint
-        id: lint
-        uses: helm/chart-testing-action@v1.0.0-rc.2
+      - name: Create kind cluster
+        uses: helm/kind-action@v1.0.0-rc.1
         with:
-          command: lint
+          installLocalPathProvisioner: true
