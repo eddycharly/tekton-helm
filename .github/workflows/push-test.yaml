@@ -1,0 +1,27 @@
+name: Push test
+
+on:
+  push:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Fetch history
+        run: git fetch --prune --unshallow
+      - name: List changed
+        id: list
+        uses: helm/chart-testing-action@v1.0.0-rc.2
+        with:
+          command: list-changed
+      - name: Kind
+        uses: helm/kind-action@v1.0.0-rc.1
+        with:
+          installLocalPathProvisioner: true
+        if: steps.list.outputs.changed == 'true'
+      - name: Test
+        uses: helm/chart-testing-action@v1.0.0-rc.2
+        with:
+          command: install
