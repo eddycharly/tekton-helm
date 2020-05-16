@@ -15,3 +15,7 @@ jobs:
         uses: helm/kind-action@v1.0.0-rc.1
         with:
           installLocalPathProvisioner: true
+      - name: Test
+        uses: helm/chart-testing-action@v1.0.0-rc.2
+        with:
+          command: install
