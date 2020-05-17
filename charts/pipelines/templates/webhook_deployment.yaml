@@ -1,0 +1,83 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "pipeline.fullname" . }}-webhook
+  labels:
+    {{- include "pipeline.baseLabels" . | nindent 4 }}
+    {{- include "pipeline.helmLabels" . | nindent 4 }}
+    {{- include "pipeline.versionLabels" . | nindent 4 }}
+    {{- include "pipeline.componentLabels" "webhook" | nindent 4 }}
+    {{- include "pipeline.nameLabels" "webhook" | nindent 4 }}
+spec:
+  replicas: {{ .Values.webhook.replicas }}
+  {{- with .Values.webhook.updateStrategy }}
+  strategy:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "pipeline.baseLabels" . | nindent 6 }}
+      {{- include "pipeline.componentLabels" "webhook" | nindent 6 }}
+      {{- include "pipeline.nameLabels" "webhook" | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.webhook.annotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "pipeline.baseLabels" . | nindent 8 }}
+        {{- include "pipeline.helmLabels" . | nindent 8 }}
+        {{- include "pipeline.versionLabels" . | nindent 8 }}
+        {{- include "pipeline.componentLabels" "webhook" | nindent 8 }}
+        {{- include "pipeline.nameLabels" "webhook" | nindent 8 }}
+    spec:
+      serviceAccountName: {{ template "pipeline.serviceAccountName" . }}
+      {{- with .Values.webhook.securityContext }}
+      securityContext:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.webhook.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.webhook.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.webhook.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: webhook
+          image: {{ printf "%s:%s" .Values.webhook.image.repository .Values.webhook.image.tag | quote }}
+          imagePullPolicy: {{ .Values.webhook.image.pullPolicy | quote }}
+          env:
+            - name: SYSTEM_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.namespace
+            # - name: CONFIG_DEFAULTS_NAME
+            #   value: {{ template "pipeline.fullname" . }}-defaults
+            - name: CONFIG_LOGGING_NAME
+              value: {{ template "pipeline.fullname" . }}-logging
+            - name: CONFIG_OBSERVABILITY_NAME
+              value: {{ template "pipeline.fullname" . }}-observability
+            - name: WEBHOOK_SERVICE_NAME
+              value: {{ template "pipeline.fullname" . }}-webhook
+            - name: METRICS_DOMAIN
+              value: tekton.dev/pipeline
+          securityContext:
+            allowPrivilegeEscalation: false
+          {{- with .Values.webhook.resources }}
+          resources:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
+          ports:
+            - name: metrics
+              containerPort: 9090
+            - name: profiling
+              containerPort: 8008
+            - name: https-webhook
+              containerPort: 8443

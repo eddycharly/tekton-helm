@@ -26,4 +26,4 @@ jobs:
         uses: helm/chart-releaser-action@v1.0.0-rc.2
         env:
           CR_TOKEN: "${{ secrets.CR_TOKEN }}"
-        if: steps.list.outputs.changed == 'true'
+        # if: steps.list.outputs.changed == 'true'

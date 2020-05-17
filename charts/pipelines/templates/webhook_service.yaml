@@ -1,0 +1,37 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "pipeline.fullname" . }}-webhook
+  labels:
+    {{- include "pipeline.baseLabels" . | nindent 4 }}
+    {{- include "pipeline.helmLabels" . | nindent 4 }}
+    {{- include "pipeline.versionLabels" . | nindent 4 }}
+    {{- include "pipeline.componentLabels" "webhook" | nindent 4 }}
+    {{- include "pipeline.nameLabels" "webhook" | nindent 4 }}
+  {{- with .Values.webhook.service.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  type: {{ .Values.webhook.service.type }}
+  ports:
+    - name: https
+      port: 443
+      protocol: TCP
+      targetPort: 8443
+    {{- if .Values.webhook.metrics.enabled }}
+    - name: {{ .Values.webhook.metrics.portName }}
+      port: {{ .Values.webhook.metrics.port }}
+      protocol: TCP
+      targetPort: 9090
+    {{- end }}
+    {{- if .Values.webhook.profiling.enabled }}
+    - name: {{ .Values.webhook.profiling.portName }}
+      port: {{ .Values.webhook.profiling.port }}
+      protocol: TCP
+      targetPort: 8008
+    {{- end }}
+  selector:
+    {{- include "pipeline.baseLabels" . | nindent 4 }}
+    {{- include "pipeline.componentLabels" "webhook" | nindent 4 }}
+    {{- include "pipeline.nameLabels" "webhook" | nindent 4 }}

@@ -6,7 +6,7 @@ This functionality is in beta and is subject to change.
 
 The helm charts repository is available here: `https://eddycharly.github.io/tekton-helm`.
 
-Adding the helm charts repo:
+Adding helm charts repo:
 
 ```bash
 helm repo add eddycharly https://eddycharly.github.io/tekton-helm
