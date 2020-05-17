@@ -1,0 +1,16 @@
+name: dashboard
+icon: https://tekton.dev/images/tekton-horizontal-color.png
+apiVersion: v1
+version: 0.6.1
+appVersion: 0.6.1
+home: https://github.com/tektoncd/dashboard
+keywords:
+  - helm
+  - tekton
+  - tektoncd
+  - dashboard
+maintainers:
+  - name: eddycharly
+    email: ceb@agriconomie.com
+description: |
+  This chart bootstraps installation of [tekton dashboard](https://github.com/tektoncd/dashboard).

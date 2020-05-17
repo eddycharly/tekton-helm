@@ -1,0 +1,23 @@
+{{- if .Values.dashboard.ingress.enabled }}
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ template "dashboard.fullname" . }}
+  labels:
+    {{- include "dashboard.baseLabels" . | nindent 4 }}
+    {{- include "dashboard.helmLabels" . | nindent 4 }}
+  {{- with .Values.dashboard.ingress.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  rules:
+    {{- range .Values.dashboard.ingress.hosts }}
+    - host: {{ . | quote }}
+      http:
+        paths:
+          - backend:
+              serviceName: {{ template "dashboard.fullname" $ }}
+              servicePort: {{ $.Values.dashboard.service.port }}
+    {{- end }}
+{{- end }}
