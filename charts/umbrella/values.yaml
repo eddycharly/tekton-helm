@@ -1,0 +1,11 @@
+pipelines:
+  # pipelines.enabled -- Enable tekton pipelines
+  enabled: true
+
+triggers:
+  # triggers.enabled -- Enable tekton triggers
+  enabled: true
+
+dashboard:
+  # dashboard.enabled -- Enable tekton dashboard
+  enabled: true
