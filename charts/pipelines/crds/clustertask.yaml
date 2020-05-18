@@ -3,7 +3,7 @@ kind: CustomResourceDefinition
 metadata:
   name: clustertasks.tekton.dev
   annotations:
-    "helm.sh/hook": crd-install
+    helm.sh/hook: crd-install
   labels:
     app.kubernetes.io/part-of: tekton-pipelines
 spec:
