@@ -2,10 +2,10 @@
 apiVersion: policy/v1beta1
 kind: PodSecurityPolicy
 metadata:
-  name: {{ template "pipeline.fullname" . }}
+  name: {{ template "pipelines.fullname" . }}
   labels:
-    {{- include "pipeline.baseLabels" . | nindent 4 }}
-    {{- include "pipeline.helmLabels" . | nindent 4 }}
+    {{- include "pipelines.baseLabels" . | nindent 4 }}
+    {{- include "pipelines.helmLabels" . | nindent 4 }}
 spec:
   privileged: false
   allowPrivilegeEscalation: false
