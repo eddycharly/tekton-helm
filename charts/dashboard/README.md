@@ -37,7 +37,7 @@ helm repo add eddycharly https://eddycharly.github.io/tekton-helm
 # This will install Tekton Dashboard in the tekton namespace (with a my-dashboard release name)
 
 # Helm v2
-helm upgrade --install my-dashboard --namespace tekton eddycharly/dashboard --set customResourceDefinitions.create=true
+helm upgrade --install my-dashboard --namespace tekton eddycharly/dashboard
 # Helm v3
 helm upgrade --install my-dashboard --namespace tekton eddycharly/dashboard
 ```
@@ -48,7 +48,7 @@ helm upgrade --install my-dashboard --namespace tekton eddycharly/dashboard
 # This will install Tekton Dashboard in the tekton namespace (with a my-dashboard release name)
 
 # Helm v2
-helm upgrade --install my-dashboard --namespace tekton eddycharly/dashboard
+helm upgrade --install my-dashboard --namespace tekton eddycharly/dashboard --no-crd-hook
 # Helm v3
 helm upgrade --install my-dashboard --namespace tekton eddycharly/dashboard --skip-crds
 ```
@@ -59,7 +59,7 @@ helm upgrade --install my-dashboard --namespace tekton eddycharly/dashboard --sk
 # This will install Tekton Dashboard in the tekton namespace (with a my-dashboard release name)
 
 # Helm v2
-helm upgrade --install my-dashboard --namespace tekton eddycharly/dashboard --set customResourceDefinitions.create=true --set rbac.create=false --set rbac.serviceAccountName=svcAccountName
+helm upgrade --install my-dashboard --namespace tekton eddycharly/dashboard --set rbac.create=false --set rbac.serviceAccountName=svcAccountName
 # Helm v3
 helm upgrade --install my-dashboard --namespace tekton eddycharly/dashboard --set rbac.create=false --set rbac.serviceAccountName=svcAccountName
 ```
@@ -81,14 +81,13 @@ helm uninstall my-dashboard --namespace tekton
 
 ## Version
 
-Current chart version is `0.6.1`
+Current chart version is `0.6.2`
 
 ## Chart Values
 
 
 | Key | Type | Description | Default |
 |-----|------|-------------|---------|
-| `customResourceDefinitions.create` | bool | Create CRDs | `false` |
 | `dashboard.affinity` | object | Dashboard affinity rules | `{}` |
 | `dashboard.annotations` | object | Dashboard pod annotations | See [values.yaml](./values.yaml) |
 | `dashboard.image.pullPolicy` | string | Dashboard docker image pull policy | `"IfNotPresent"` |
@@ -151,7 +150,7 @@ Use the previously created file to pass the values to helm:
 # This will install Tekton Dashboard in the tekton namespace (with a my-dashboard release name)
 
 # Helm v2
-helm upgrade --install my-dashboard --namespace tekton eddycharly/dashboard --set customResourceDefinitions.create=true --values pod-resources.yaml
+helm upgrade --install my-dashboard --namespace tekton eddycharly/dashboard --values pod-resources.yaml
 # Helm v3
 helm upgrade --install my-dashboard --namespace tekton eddycharly/dashboard --values pod-resources.yaml
 ```
@@ -162,7 +161,7 @@ helm upgrade --install my-dashboard --namespace tekton eddycharly/dashboard --va
 # This will install Tekton Dashboard in the tekton namespace (with a my-dashboard release name)
 
 # Helm v2
-helm upgrade --install my-dashboard --namespace tekton eddycharly/dashboard --set customResourceDefinitions.create=true --set dashboard.readOnly=true
+helm upgrade --install my-dashboard --namespace tekton eddycharly/dashboard --set dashboard.readOnly=true
 # Helm v3
 helm upgrade --install my-dashboard --namespace tekton eddycharly/dashboard --set dashboard.readOnly=true
 ```
