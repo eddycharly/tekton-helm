@@ -3,7 +3,7 @@ kind: CustomResourceDefinition
 metadata:
   name: images.caching.internal.knative.dev
   annotations:
-    "helm.sh/hook": crd-install
+    helm.sh/hook: crd-install
   labels:
     app.kubernetes.io/part-of: tekton-pipelines
     knative.dev/crd-install: "true"
