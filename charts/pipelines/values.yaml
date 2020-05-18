@@ -14,10 +14,6 @@ rbac:
   # rbac.serviceAccountName -- Name of the service account to use when rbac.create is false
   serviceAccountName:
 
-customResourceDefinitions:
-  # customResourceDefinitions.create -- Create CRDs
-  create: false
-
 podSecurityPolicy:
   # podSecurityPolicy.enabled -- Enable pod security policy
   enabled: false
