@@ -2,13 +2,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ template "pipeline.fullname" . }}-controller
+  name: {{ template "pipelines.fullname" . }}-controller
   labels:
-    {{- include "pipeline.baseLabels" . | nindent 4 }}
-    {{- include "pipeline.helmLabels" . | nindent 4 }}
-    {{- include "pipeline.versionLabels" . | nindent 4 }}
-    {{- include "pipeline.componentLabels" "controller" | nindent 4 }}
-    {{- include "pipeline.nameLabels" "controller" | nindent 4 }}
+    {{- include "pipelines.baseLabels" . | nindent 4 }}
+    {{- include "pipelines.helmLabels" . | nindent 4 }}
+    {{- include "pipelines.versionLabels" . | nindent 4 }}
+    {{- include "pipelines.componentLabels" "controller" | nindent 4 }}
+    {{- include "pipelines.nameLabels" "controller" | nindent 4 }}
   {{- with .Values.controller.service.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
@@ -21,7 +21,7 @@ spec:
       protocol: TCP
       targetPort: 9090
   selector:
-    {{- include "pipeline.baseLabels" . | nindent 4 }}
-    {{- include "pipeline.componentLabels" "controller" | nindent 4 }}
-    {{- include "pipeline.nameLabels" "controller" | nindent 4 }}
+    {{- include "pipelines.baseLabels" . | nindent 4 }}
+    {{- include "pipelines.componentLabels" "controller" | nindent 4 }}
+    {{- include "pipelines.nameLabels" "controller" | nindent 4 }}
 {{- end }}

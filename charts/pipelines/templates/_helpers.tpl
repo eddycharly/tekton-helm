@@ -2,7 +2,7 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "pipeline.name" -}}
+{{- define "pipelines.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
@@ -11,7 +11,7 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "pipeline.fullname" -}}
+{{- define "pipelines.fullname" -}}
 {{- if .Values.fullnameOverride -}}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" -}}
 {{- else -}}
@@ -27,16 +27,16 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "pipeline.chart" -}}
+{{- define "pipelines.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
 {{/*
 Create the name of the service account to use
 */}}
-{{- define "pipeline.serviceAccountName" -}}
+{{- define "pipelines.serviceAccountName" -}}
 {{- if .Values.rbac.create -}}
-{{- template "pipeline.fullname" . -}}
+{{- template "pipelines.fullname" . -}}
 {{- else -}}
 {{- required "A service account name is required" .Values.rbac.serviceAccountName -}}
 {{- end -}}
@@ -45,7 +45,7 @@ Create the name of the service account to use
 {{/*
 Create base labels
 */}}
-{{- define "pipeline.baseLabels" -}}
+{{- define "pipelines.baseLabels" -}}
 app.kubernetes.io/instance: {{ .Release.Name }}
 app.kubernetes.io/part-of: tekton-pipelines
 {{- end -}}
@@ -53,15 +53,15 @@ app.kubernetes.io/part-of: tekton-pipelines
 {{/*
 Create helm labels
 */}}
-{{- define "pipeline.helmLabels" -}}
+{{- define "pipelines.helmLabels" -}}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
-helm.sh/chart: {{ template "pipeline.chart" . }}
+helm.sh/chart: {{ template "pipelines.chart" . }}
 {{- end -}}
 
 {{/*
 Create version labels
 */}}
-{{- define "pipeline.versionLabels" -}}
+{{- define "pipelines.versionLabels" -}}
 app.kubernetes.io/version: {{ .Values.version | quote }}
 pipeline.tekton.dev/release: {{ .Values.version | quote }}
 version: {{ .Values.version | quote }}
@@ -70,13 +70,13 @@ version: {{ .Values.version | quote }}
 {{/*
 Create component labels
 */}}
-{{- define "pipeline.componentLabels" -}}
+{{- define "pipelines.componentLabels" -}}
 app.kubernetes.io/component: {{ . }}
 {{- end -}}
 
 {{/*
 Create name labels
 */}}
-{{- define "pipeline.nameLabels" -}}
+{{- define "pipelines.nameLabels" -}}
 app.kubernetes.io/name: {{ . }}
 {{- end -}}

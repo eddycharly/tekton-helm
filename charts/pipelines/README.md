@@ -38,7 +38,7 @@ helm repo add eddycharly https://eddycharly.github.io/tekton-helm
 # This will install Tekton Pipelines in the tekton namespace (with a my-pipeline release name)
 
 # Helm v2
-helm upgrade --install my-pipeline --namespace tekton eddycharly/pipelines --set customResourceDefinitions.create=true
+helm upgrade --install my-pipeline --namespace tekton eddycharly/pipelines
 # Helm v3
 helm upgrade --install my-pipeline --namespace tekton eddycharly/pipelines
 ```
@@ -49,7 +49,7 @@ helm upgrade --install my-pipeline --namespace tekton eddycharly/pipelines
 # This will install Tekton Pipelines in the tekton namespace (with a my-pipeline release name)
 
 # Helm v2
-helm upgrade --install my-pipeline --namespace tekton eddycharly/pipelines
+helm upgrade --install my-pipeline --namespace tekton eddycharly/pipelines --no-crd-hook
 # Helm v3
 helm upgrade --install my-pipeline --namespace tekton eddycharly/pipelines --skip-crds
 ```
@@ -60,7 +60,7 @@ helm upgrade --install my-pipeline --namespace tekton eddycharly/pipelines --ski
 # This will install Tekton Pipelines in the tekton namespace (with a my-pipeline release name)
 
 # Helm v2
-helm upgrade --install my-pipeline --namespace tekton eddycharly/pipelines --set customResourceDefinitions.create=true --set rbac.create=false --set rbac.serviceAccountName=svcAccountName
+helm upgrade --install my-pipeline --namespace tekton eddycharly/pipelines --set rbac.create=false --set rbac.serviceAccountName=svcAccountName
 # Helm v3
 helm upgrade --install my-pipeline --namespace tekton eddycharly/pipelines --set rbac.create=false --set rbac.serviceAccountName=svcAccountName
 ```
@@ -82,7 +82,7 @@ helm uninstall my-pipeline --namespace tekton
 
 ## Version
 
-Current chart version is `0.11.3`
+Current chart version is `0.11.4`
 
 ## Chart Values
 
@@ -111,7 +111,6 @@ Current chart version is `0.11.3`
 | `controller.service.annotations` | object | Controller service annotations | `{}` |
 | `controller.service.type` | string | Controller service type | `"ClusterIP"` |
 | `controller.tolerations` | list | Controller tolerations | `[]` |
-| `customResourceDefinitions.create` | bool | Create CRDs | `false` |
 | `fullnameOverride` | string | Fully override resource generated names | `""` |
 | `nameOverride` | string | Partially override resource generated names | `""` |
 | `podSecurityPolicy.enabled` | bool | Enable pod security policy | `false` |
@@ -171,7 +170,7 @@ Use the previously created file to pass the configuration to helm:
 # This will install Tekton Pipelines in the tekton namespace (with a my-pipeline release name)
 
 # Helm v2
-helm upgrade --install my-pipeline --namespace tekton eddycharly/pipelines --set customResourceDefinitions.create=true --set-file config.artifactBucket=config-artifact-bucket.yaml
+helm upgrade --install my-pipeline --namespace tekton eddycharly/pipelines --set-file config.artifactBucket=config-artifact-bucket.yaml
 # Helm v3
 helm upgrade --install my-pipeline --namespace tekton eddycharly/pipelines --set-file config.artifactBucket=config-artifact-bucket.yaml
 ```
@@ -192,7 +191,7 @@ Use the previously created file to pass the configuration to helm:
 # This will install Tekton Pipelines in the tekton namespace (with a my-pipeline release name)
 
 # Helm v2
-helm upgrade --install my-pipeline --namespace tekton eddycharly/pipelines --set customResourceDefinitions.create=true --set-file config.artifactPvc=config-artifact-pvc.yaml
+helm upgrade --install my-pipeline --namespace tekton eddycharly/pipelines --set-file config.artifactPvc=config-artifact-pvc.yaml
 # Helm v3
 helm upgrade --install my-pipeline --namespace tekton eddycharly/pipelines --set-file config.artifactPvc=config-artifact-pvc.yaml
 ```
@@ -216,7 +215,7 @@ Use the previously created file to pass the configuration to helm:
 # This will install Tekton Pipelines in the tekton namespace (with a my-pipeline release name)
 
 # Helm v2
-helm upgrade --install my-pipeline --namespace tekton eddycharly/pipelines --set customResourceDefinitions.create=true --set-file config.defaults=config-artifact-defaults.yaml
+helm upgrade --install my-pipeline --namespace tekton eddycharly/pipelines --set-file config.defaults=config-artifact-defaults.yaml
 # Helm v3
 helm upgrade --install my-pipeline --namespace tekton eddycharly/pipelines --set-file config.defaults=config-artifact-defaults.yaml
 ```
@@ -270,7 +269,7 @@ Use the previously created file to pass the values to helm:
 # This will install Tekton Pipelines in the tekton namespace (with a my-pipeline release name)
 
 # Helm v2
-helm upgrade --install my-pipeline --namespace tekton eddycharly/pipelines --set customResourceDefinitions.create=true --values pod-resources.yaml
+helm upgrade --install my-pipeline --namespace tekton eddycharly/pipelines --values pod-resources.yaml
 # Helm v3
 helm upgrade --install my-pipeline --namespace tekton eddycharly/pipelines --values pod-resources.yaml
 ```
@@ -283,7 +282,7 @@ Only Webhook pod replicas can be configured, the controller doesn't support more
 # This will install Tekton Pipelines in the tekton namespace (with a my-pipeline release name)
 
 # Helm v2
-helm upgrade --install my-pipeline --namespace tekton eddycharly/pipelines --set customResourceDefinitions.create=true --set webhook.replicas=3
+helm upgrade --install my-pipeline --namespace tekton eddycharly/pipelines --set webhook.replicas=3
 # Helm v3
 helm upgrade --install my-pipeline --namespace tekton eddycharly/pipelines --set webhook.replicas=3
 ```
@@ -315,7 +314,7 @@ Use the previously created file to pass the values to helm:
 # This will install Tekton Pipelines in the tekton namespace (with a my-pipeline release name)
 
 # Helm v2
-helm upgrade --install my-pipeline --namespace tekton eddycharly/pipelines --set customResourceDefinitions.create=true --values service-annotations.yaml
+helm upgrade --install my-pipeline --namespace tekton eddycharly/pipelines --values service-annotations.yaml
 # Helm v3
 helm upgrade --install my-pipeline --namespace tekton eddycharly/pipelines --values service-annotations.yaml
 ```
@@ -330,7 +329,7 @@ Deploy with:
 # This will install Tekton Pipelines in the tekton namespace (with a my-pipeline release name)
 
 # Helm v2
-helm upgrade --install my-pipeline --namespace tekton eddycharly/pipelines --set customResourceDefinitions.create=true --values values-production.yaml
+helm upgrade --install my-pipeline --namespace tekton eddycharly/pipelines --values values-production.yaml
 # Helm v3
 helm upgrade --install my-pipeline --namespace tekton eddycharly/pipelines --values values-production.yaml
 ```

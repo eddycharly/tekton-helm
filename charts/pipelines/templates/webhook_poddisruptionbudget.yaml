@@ -3,17 +3,17 @@
 apiVersion: policy/v1beta1
 kind: PodDisruptionBudget
 metadata:
-  name: {{ template "pipeline.fullname" . }}-webhook
+  name: {{ template "pipelines.fullname" . }}-webhook
   labels:
-    {{- include "pipeline.baseLabels" . | nindent 4 }}
-    {{- include "pipeline.helmLabels" . | nindent 4 }}
-    {{- include "pipeline.componentLabels" "webhook" | nindent 4 }}
+    {{- include "pipelines.baseLabels" . | nindent 4 }}
+    {{- include "pipelines.helmLabels" . | nindent 4 }}
+    {{- include "pipelines.componentLabels" "webhook" | nindent 4 }}
 spec:
   selector:
     matchLabels:
-      {{- include "pipeline.baseLabels" . | nindent 6 }}
-      {{- include "pipeline.componentLabels" "webhook" | nindent 6 }}
-      {{- include "pipeline.nameLabels" "webhook" | nindent 6 }}
+      {{- include "pipelines.baseLabels" . | nindent 6 }}
+      {{- include "pipelines.componentLabels" "webhook" | nindent 6 }}
+      {{- include "pipelines.nameLabels" "webhook" | nindent 6 }}
   {{- if .Values.webhook.podDisruptionBudget.minAvailable }}
   minAvailable: {{ .Values.webhook.podDisruptionBudget.minAvailable }}
   {{- end }}

@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ template "pipeline.fullname" . }}-controller
+  name: {{ template "pipelines.fullname" . }}-controller
   labels:
-    {{- include "pipeline.baseLabels" . | nindent 4 }}
-    {{- include "pipeline.helmLabels" . | nindent 4 }}
-    {{- include "pipeline.versionLabels" . | nindent 4 }}
-    {{- include "pipeline.componentLabels" "controller" | nindent 4 }}
-    {{- include "pipeline.nameLabels" "controller" | nindent 4 }}
+    {{- include "pipelines.baseLabels" . | nindent 4 }}
+    {{- include "pipelines.helmLabels" . | nindent 4 }}
+    {{- include "pipelines.versionLabels" . | nindent 4 }}
+    {{- include "pipelines.componentLabels" "controller" | nindent 4 }}
+    {{- include "pipelines.nameLabels" "controller" | nindent 4 }}
 spec:
   replicas: 1
   selector:
     matchLabels:
-      {{- include "pipeline.baseLabels" . | nindent 6 }}
-      {{- include "pipeline.componentLabels" "controller" | nindent 6 }}
-      {{- include "pipeline.nameLabels" "controller" | nindent 6 }}
+      {{- include "pipelines.baseLabels" . | nindent 6 }}
+      {{- include "pipelines.componentLabels" "controller" | nindent 6 }}
+      {{- include "pipelines.nameLabels" "controller" | nindent 6 }}
   template:
     metadata:
       {{- with .Values.controller.annotations }}
@@ -22,13 +22,13 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "pipeline.baseLabels" . | nindent 8 }}
-        {{- include "pipeline.helmLabels" . | nindent 8 }}
-        {{- include "pipeline.versionLabels" . | nindent 8 }}
-        {{- include "pipeline.componentLabels" "controller" | nindent 8 }}
-        {{- include "pipeline.nameLabels" "controller" | nindent 8 }}
+        {{- include "pipelines.baseLabels" . | nindent 8 }}
+        {{- include "pipelines.helmLabels" . | nindent 8 }}
+        {{- include "pipelines.versionLabels" . | nindent 8 }}
+        {{- include "pipelines.componentLabels" "controller" | nindent 8 }}
+        {{- include "pipelines.nameLabels" "controller" | nindent 8 }}
     spec:
-      serviceAccountName: {{ template "pipeline.serviceAccountName" . }}
+      serviceAccountName: {{ template "pipelines.serviceAccountName" . }}
       {{- with .Values.controller.securityContext }}
       securityContext:
         {{- toYaml . | nindent 8 }}
@@ -59,15 +59,15 @@ spec:
                 fieldRef:
                   fieldPath: metadata.namespace
             # - name: CONFIG_DEFAULTS_NAME
-            #   value: {{ template "pipeline.fullname" . }}-defaults
+            #   value: {{ template "pipelines.fullname" . }}-defaults
             - name: CONFIG_LOGGING_NAME
-              value: {{ template "pipeline.fullname" . }}-logging
+              value: {{ template "pipelines.fullname" . }}-logging
             - name: CONFIG_OBSERVABILITY_NAME
-              value: {{ template "pipeline.fullname" . }}-observability
+              value: {{ template "pipelines.fullname" . }}-observability
             - name: CONFIG_ARTIFACT_BUCKET_NAME
-              value: {{ template "pipeline.fullname" . }}-artifact-bucket
+              value: {{ template "pipelines.fullname" . }}-artifact-bucket
             - name: CONFIG_ARTIFACT_PVC_NAME
-              value: {{ template "pipeline.fullname" . }}-artifact-pvc
+              value: {{ template "pipelines.fullname" . }}-artifact-pvc
             - name: METRICS_DOMAIN
               value: tekton.dev/pipeline
           volumeMounts:
@@ -85,4 +85,4 @@ spec:
       volumes:
         - name: config-logging
           configMap:
-            name: {{ template "pipeline.fullname" . }}-logging
+            name: {{ template "pipelines.fullname" . }}-logging
