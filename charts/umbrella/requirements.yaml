@@ -1,0 +1,13 @@
+dependencies:
+  - name: pipelines
+    version: 0.11.5
+    repository: file://../pipelines
+    condition: pipelines.enabled
+  - name: triggers
+    version: 0.4.0
+    repository: file://../triggers
+    condition: triggers.enabled
+  - name: dashboard
+    version: 0.6.3
+    repository: file://../dashboard
+    condition: dashboard.enabled

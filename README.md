@@ -16,11 +16,12 @@ helm repo add eddycharly https://eddycharly.github.io/tekton-helm
 
 The following charts are available, please look in the chart directories for the documentation of each chart.
 
-| Tekton chart | Chart link |
+| Chart | Chart link |
 |---|---|
 | Tekton Pipelines | [chart documentation](./charts/pipeline/README.md) |
 | Tekton Dashboard | [chart documentation](./charts/dashboard/README.md) |
 | Tekton Triggers | [chart documentation](./charts/triggers/README.md) |
+| Umbrella (regroups all Tekton componnents in one chart) | [chart documentation](./charts/umbrella/README.md) |
 
 ## Charts versioning
 
