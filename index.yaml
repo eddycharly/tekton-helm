@@ -146,4 +146,41 @@ entries:
     urls:
     - https://github.com/eddycharly/tekton-helm/releases/download/triggers-0.4.0/triggers-0.4.0.tgz
     version: 0.4.0
+  umbrella:
+  - apiVersion: v1
+    appVersion: 0.0.1
+    created: "2020-05-18T10:24:15.557583953Z"
+    dependencies:
+    - condition: pipelines.enabled
+      name: pipelines
+      repository: file://../pipelines
+      version: 0.11.5
+    - condition: triggers.enabled
+      name: triggers
+      repository: file://../triggers
+      version: 0.4.0
+    - condition: dashboard.enabled
+      name: dashboard
+      repository: file://../dashboard
+      version: 0.6.3
+    description: |
+      This chart bootstraps installation of Tekton components:
+      - [tekton pipeline](https://github.com/tektoncd/pipeline)
+      - [tekton triggers](https://github.com/tektoncd/triggers)
+      - [tekton dashboard](https://github.com/tektoncd/dashboard)
+    digest: 6018018dae8d580a3876e8ade3edf583b7a4415876082a25b0b906d5382ed862
+    home: https://github.com/eddycharly/tekton-helm
+    icon: https://tekton.dev/images/tekton-horizontal-color.png
+    keywords:
+    - helm
+    - tekton
+    - tektoncd
+    - umbrella
+    maintainers:
+    - email: ceb@agriconomie.com
+      name: eddycharly
+    name: umbrella
+    urls:
+    - https://github.com/eddycharly/tekton-helm/releases/download/umbrella-0.0.1/umbrella-0.0.1.tgz
+    version: 0.0.1
 generated: "2020-05-17T13:13:59.10282414Z"
