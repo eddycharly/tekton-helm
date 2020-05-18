@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "triggers.fullname" . }}-logging
+  labels:
+    {{- include "triggers.baseLabels" . | nindent 4 }}
+    {{- include "triggers.helmLabels" . | nindent 4 }}
+data:
+{{ .Values.config.logging | toYaml | indent 2 }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "triggers.fullname" . }}-observability
+  labels:
+    {{- include "triggers.baseLabels" . | nindent 4 }}
+    {{- include "triggers.helmLabels" . | nindent 4 }}
+data:
+{{ .Values.config.observability | toYaml | indent 2 }}

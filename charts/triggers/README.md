@@ -1,20 +1,19 @@
 
 
-# Tekton Pipelines Helm Chart
+# Tekton Triggers Helm Chart
 
-The [Tekton Pipelines](https://github.com/tektoncd/pipeline) project provides k8s-style resources for declaring CI/CD-style pipelines.
-
-This helm chart is a lightweight way to deploy, configure and run Tekton Pipelines on a k8s cluster.
+[Triggers](https://github.com/tektoncd/triggers) is a Kubernetes Custom Resource Defintion (CRD) controller that allows you to extract information from events payloads (a "trigger") to create Kubernetes resources.
 
 ## Requirements
 
 * [Helm](https://helm.sh/) v2 or v3
 * Kubernetes >= 1.15 (it's driven by the version of Tekton Pipelines installed)
 * Depending on the configuration you will need admin access to be able to install the CRDs
+* Tekton Pipelines deployed in the target cluster (see [Tekton Pipelines Helm Chart](../pipeline/README.md))
 
 ## Description
 
-This chart deploys the Tekton Pipelines controller and associated webhook. It should run on k8s as well as OpenShift.
+This chart deploys the Tekton Triggers controller and the associated webhook. It should run on k8s as well as OpenShift.
 
 It includes various options to expose metrics and/or profiling endpoints, create rbac resources, run in high availabilty mode, control pods placement and resources, etc...
 
@@ -22,11 +21,11 @@ All options are documented in the [Chart Values](#chart-values) section.
 
 Various configuration examples are document in the [Try it out](#try-it-out) section.
 
-An additional guide is available in the [Production grade configuration](#production-grade-configuration) section to help deploying Tekton Pipelines in a highlly available and secure mode.
+An additional guide is available in the [Production grade configuration](#production-grade-configuration) section to help deploying Tekton Triggers in a highlly available and secure mode.
 
 ## Installing
 
-- Add helm charts repo
+- Add the Tekton helm charts repo
 
 ```bash
 helm repo add eddycharly https://eddycharly.github.io/tekton-helm
@@ -35,34 +34,34 @@ helm repo add eddycharly https://eddycharly.github.io/tekton-helm
 - Install (or upgrade)
 
 ```bash
-# This will install Tekton Pipelines in the tekton namespace (with a my-pipeline release name)
+# This will install Tekton Triggers in the tekton namespace (with a my-triggers release name)
 
 # Helm v2
-helm upgrade --install my-pipeline --namespace tekton eddycharly/pipelines
+helm upgrade --install my-triggers --namespace tekton eddycharly/triggers
 # Helm v3
-helm upgrade --install my-pipeline --namespace tekton eddycharly/pipelines
+helm upgrade --install my-triggers --namespace tekton eddycharly/triggers
 ```
 
 - Install (or upgrade) without CRDs (assuming CRDs have already been deployed by an admin)
 
 ```bash
-# This will install Tekton Pipelines in the tekton namespace (with a my-pipeline release name)
+# This will install Tekton Triggers in the tekton namespace (with a my-triggers release name)
 
 # Helm v2
-helm upgrade --install my-pipeline --namespace tekton eddycharly/pipelines --no-crd-hook
+helm upgrade --install my-triggers --namespace tekton eddycharly/triggers --no-crd-hook
 # Helm v3
-helm upgrade --install my-pipeline --namespace tekton eddycharly/pipelines --skip-crds
+helm upgrade --install my-triggers --namespace tekton eddycharly/triggers --skip-crds
 ```
 
 - Install (or upgrade) without creating RBAC resources (assuming RBAC resources have been created by an admin)
 
 ```bash
-# This will install Tekton Pipelines in the tekton namespace (with a my-pipeline release name)
+# This will install Tekton Triggers in the tekton namespace (with a my-triggers release name)
 
 # Helm v2
-helm upgrade --install my-pipeline --namespace tekton eddycharly/pipelines --set rbac.create=false --set rbac.serviceAccountName=svcAccountName
+helm upgrade --install my-triggers --namespace tekton eddycharly/triggers --set rbac.create=false --set rbac.serviceAccountName=svcAccountName
 # Helm v3
-helm upgrade --install my-pipeline --namespace tekton eddycharly/pipelines --set rbac.create=false --set rbac.serviceAccountName=svcAccountName
+helm upgrade --install my-triggers --namespace tekton eddycharly/triggers --set rbac.create=false --set rbac.serviceAccountName=svcAccountName
 ```
 
 Look [below](#chart-values) for the list of all available options and their corresponding description.
@@ -72,36 +71,31 @@ Look [below](#chart-values) for the list of all available options and their corr
 To uninstall the chart, simply delete the release.
 
 ```bash
-# This will uninstall Tekton Pipelines in the tekton namespace (assuming a my-pipeline release name)
+# This will uninstall Tekton Triggers in the tekton namespace (assuming a my-triggers release name)
 
 # Helm v2
-helm delete --purge my-pipeline
+helm delete --purge my-triggers
 # Helm v3
-helm uninstall my-pipeline --namespace tekton
+helm uninstall my-triggers --namespace tekton
 ```
 
 ## Version
 
-Current chart version is `0.11.5`
+Current chart version is `0.4.0`
 
 ## Chart Values
 
 
 | Key | Type | Description | Default |
 |-----|------|-------------|---------|
-| `config.artifactBucket` | object | Configuration for artifact bucket (see https://github.com/tektoncd/pipeline/blob/master/docs/install.md) | See [values.yaml](./values.yaml) |
-| `config.artifactPvc` | object | Configuration for artifact pvc (see https://github.com/tektoncd/pipeline/blob/master/docs/install.md) | See [values.yaml](./values.yaml) |
-| `config.defaults` | object | Configuration for default values (see https://github.com/tektoncd/pipeline/blob/master/docs/install.md) | See [values.yaml](./values.yaml) |
-| `config.featureFlags` | object | Configuration for feature flags | See [values.yaml](./values.yaml) |
-| `config.leaderElection` | object | Configuration for leader election | See [values.yaml](./values.yaml) |
 | `config.logging` | object | Configuration for logging (see https://github.com/tektoncd/pipeline/blob/master/docs/install.md) | See [values.yaml](./values.yaml) |
 | `config.observability` | object | Configuration for observability (see https://github.com/tektoncd/pipeline/blob/master/docs/install.md) | See [values.yaml](./values.yaml) |
 | `controller.affinity` | object | Controller affinity rules | `{}` |
 | `controller.annotations` | object | Controller pod annotations | See [values.yaml](./values.yaml) |
 | `controller.args` | list | Controller arguments | See [values.yaml](./values.yaml) |
 | `controller.image.pullPolicy` | string | Controller docker image pull policy | `"IfNotPresent"` |
-| `controller.image.repository` | string | Controller docker image repository | `"gcr.io/tekton-releases/github.com/tektoncd/pipeline/cmd/controller"` |
-| `controller.image.tag` | string | Controller docker image tag | `"v0.11.3"` |
+| `controller.image.repository` | string | Controller docker image repository | `"gcr.io/tekton-releases/github.com/tektoncd/triggers/cmd/controller"` |
+| `controller.image.tag` | string | Controller docker image tag | `"v0.4.0"` |
 | `controller.metrics.enabled` | bool | Enable controller metrics service | `true` |
 | `controller.metrics.port` | int | Controller metrics service port | `9090` |
 | `controller.metrics.portName` | string |  | `"metrics"` |
@@ -116,12 +110,12 @@ Current chart version is `0.11.5`
 | `podSecurityPolicy.enabled` | bool | Enable pod security policy | `false` |
 | `rbac.create` | bool | Create RBAC resources | `true` |
 | `rbac.serviceAccountName` | string | Name of the service account to use when rbac.create is false | `nil` |
-| `version` | string | Tekton pipelines version used to add labels on deployments, pods and services | `"v0.11.3"` |
+| `version` | string | Tekton triggers version used to add labels on deployments, pods and services | `"v0.4.0"` |
 | `webhook.affinity` | object | Webhook affinity rules | `{}` |
 | `webhook.annotations` | object | Webhook pod annotations | See [values.yaml](./values.yaml) |
 | `webhook.image.pullPolicy` | string | Webhook docker image pull policy | `"IfNotPresent"` |
-| `webhook.image.repository` | string | Webhook docker image repository | `"gcr.io/tekton-releases/github.com/tektoncd/pipeline/cmd/webhook"` |
-| `webhook.image.tag` | string | Webhook docker image tag | `"v0.11.3"` |
+| `webhook.image.repository` | string | Webhook docker image repository | `"gcr.io/tekton-releases/github.com/tektoncd/triggers/cmd/webhook"` |
+| `webhook.image.tag` | string | Webhook docker image tag | `"v0.4.0"` |
 | `webhook.metrics.enabled` | bool | Enable webhook metrics service | `true` |
 | `webhook.metrics.port` | int | Webhook metrics service port | `9090` |
 | `webhook.metrics.portName` | string | Webhook metrics service port name | `"http-metrics"` |
@@ -151,93 +145,6 @@ You will find examples below of how to customize the deployment of a release wit
 
 If you feel something is incomplete, missing or incorrect please open an issue and we'll do our best to improve this documentation.
 
-### Configure artifact bucket
-
-Look at the [Installing Tekton Pipelines](https://github.com/tektoncd/pipeline/blob/master/docs/install.md) doc for more informations about the content of this config map.
-
-Create a yaml file called `config-artifact-bucket.yaml` looking like this (the name doesn't really matters):
-
-```yaml
-location: s3://my-artifact-bucket
-bucket.service.account.secret.name: my-secret
-bucket.service.account.secret.key: boto-config
-bucket.service.account.field.name: BOTO_CONFIG
-```
-
-Use the previously created file to pass the configuration to helm:
-
-```bash
-# This will install Tekton Pipelines in the tekton namespace (with a my-pipeline release name)
-
-# Helm v2
-helm upgrade --install my-pipeline --namespace tekton eddycharly/pipelines --set-file config.artifactBucket=config-artifact-bucket.yaml
-# Helm v3
-helm upgrade --install my-pipeline --namespace tekton eddycharly/pipelines --set-file config.artifactBucket=config-artifact-bucket.yaml
-```
-
-### Configure artifact pvc
-
-Look at the [Installing Tekton Pipelines](https://github.com/tektoncd/pipeline/blob/master/docs/install.md) doc for more informations about the content of this config map.
-
-Create a yaml file called `config-artifact-pvc.yaml` looking like this (the name doesn't really matters):
-
-```yaml
-size: 1Gi
-```
-
-Use the previously created file to pass the configuration to helm:
-
-```bash
-# This will install Tekton Pipelines in the tekton namespace (with a my-pipeline release name)
-
-# Helm v2
-helm upgrade --install my-pipeline --namespace tekton eddycharly/pipelines --set-file config.artifactPvc=config-artifact-pvc.yaml
-# Helm v3
-helm upgrade --install my-pipeline --namespace tekton eddycharly/pipelines --set-file config.artifactPvc=config-artifact-pvc.yaml
-```
-
-### Configure defaults
-
-Look at the [Installing Tekton Pipelines](https://github.com/tektoncd/pipeline/blob/master/docs/install.md) doc for more informations about the content of this config map.
-
-Create a yaml file called `config-artifact-defaults.yaml` looking like this (the name doesn't really matters):
-
-```yaml
-default-service-account: my-service-account
-default-pod-template: |
-  nodeSelector:
-    kops.k8s.io/instancegroup: my-node-group
-```
-
-Use the previously created file to pass the configuration to helm:
-
-```bash
-# This will install Tekton Pipelines in the tekton namespace (with a my-pipeline release name)
-
-# Helm v2
-helm upgrade --install my-pipeline --namespace tekton eddycharly/pipelines --set-file config.defaults=config-artifact-defaults.yaml
-# Helm v3
-helm upgrade --install my-pipeline --namespace tekton eddycharly/pipelines --set-file config.defaults=config-artifact-defaults.yaml
-```
-
-### Other config maps
-
-Same thing applies for other config maps.
-
-Find below the list of supported config maps and their corresponding config key:
-
-| Config map | Config key | Official documentation
-|---|---|---|
-| artifact bucket | `config.artifactBucket` | [Installing Tekton Pipelines](https://github.com/tektoncd/pipeline/blob/master/docs/install.md) |
-| artifact pvc | `config.artifactPvc` | [Installing Tekton Pipelines](https://github.com/tektoncd/pipeline/blob/master/docs/install.md) |
-| defaults | `config.defaults` | [Installing Tekton Pipelines](https://github.com/tektoncd/pipeline/blob/master/docs/install.md) |
-| feature flags | `config.featureFlags` | [Installing Tekton Pipelines](https://github.com/tektoncd/pipeline/blob/master/docs/install.md) |
-| leader election | `config.leaderElection` | [Installing Tekton Pipelines](https://github.com/tektoncd/pipeline/blob/master/docs/install.md) |
-| logging | `config.logging` | [Installing Tekton Pipelines](https://github.com/tektoncd/pipeline/blob/master/docs/install.md) |
-| observability | `config.observability` | [Installing Tekton Pipelines](https://github.com/tektoncd/pipeline/blob/master/docs/install.md) |
-
-Please look in [values.yaml](./values.yaml) to find the default values for each config map.
-
 ### Configure pod resources
 
 Controller and Webhook pod resources are configured independently.
@@ -266,12 +173,12 @@ webhook:
 Use the previously created file to pass the values to helm:
 
 ```bash
-# This will install Tekton Pipelines in the tekton namespace (with a my-pipeline release name)
+# This will install Tekton Triggers in the tekton namespace (with a my-triggers release name)
 
 # Helm v2
-helm upgrade --install my-pipeline --namespace tekton eddycharly/pipelines --values pod-resources.yaml
+helm upgrade --install my-triggers --namespace tekton eddycharly/triggers --values pod-resources.yaml
 # Helm v3
-helm upgrade --install my-pipeline --namespace tekton eddycharly/pipelines --values pod-resources.yaml
+helm upgrade --install my-triggers --namespace tekton eddycharly/triggers --values pod-resources.yaml
 ```
 
 ### Configure number of webhook replicas
@@ -279,12 +186,12 @@ helm upgrade --install my-pipeline --namespace tekton eddycharly/pipelines --val
 Only Webhook pod replicas can be configured, the controller doesn't support more than 1 replica.
 
 ```bash
-# This will install Tekton Pipelines in the tekton namespace (with a my-pipeline release name)
+# This will install Tekton Triggers in the tekton namespace (with a my-triggers release name)
 
 # Helm v2
-helm upgrade --install my-pipeline --namespace tekton eddycharly/pipelines --set webhook.replicas=3
+helm upgrade --install my-triggers --namespace tekton eddycharly/triggers --set webhook.replicas=3
 # Helm v3
-helm upgrade --install my-pipeline --namespace tekton eddycharly/pipelines --set webhook.replicas=3
+helm upgrade --install my-triggers --namespace tekton eddycharly/triggers --set webhook.replicas=3
 ```
 
 ### Enable prometheus scraping
@@ -311,12 +218,12 @@ webhook:
 Use the previously created file to pass the values to helm:
 
 ```bash
-# This will install Tekton Pipelines in the tekton namespace (with a my-pipeline release name)
+# This will install Tekton Triggers in the tekton namespace (with a my-triggers release name)
 
 # Helm v2
-helm upgrade --install my-pipeline --namespace tekton eddycharly/pipelines --values service-annotations.yaml
+helm upgrade --install my-triggers --namespace tekton eddycharly/triggers --values service-annotations.yaml
 # Helm v3
-helm upgrade --install my-pipeline --namespace tekton eddycharly/pipelines --values service-annotations.yaml
+helm upgrade --install my-triggers --namespace tekton eddycharly/triggers --values service-annotations.yaml
 ```
 
 ## Production grade configuration
@@ -326,12 +233,12 @@ An example configuration is available in [values-production.yaml](./values-produ
 Deploy with:
 
 ```bash
-# This will install Tekton Pipelines in the tekton namespace (with a my-pipeline release name)
+# This will install Tekton Triggers in the tekton namespace (with a my-triggers release name)
 
 # Helm v2
-helm upgrade --install my-pipeline --namespace tekton eddycharly/pipelines --values values-production.yaml
+helm upgrade --install my-triggers --namespace tekton eddycharly/triggers --values values-production.yaml
 # Helm v3
-helm upgrade --install my-pipeline --namespace tekton eddycharly/pipelines --values values-production.yaml
+helm upgrade --install my-triggers --namespace tekton eddycharly/triggers --values values-production.yaml
 ```
 
 - Enable pod security policy
@@ -410,7 +317,7 @@ webhook:
         - labelSelector:
             matchLabels:
               app.kubernetes.io/component: webhook
-              app.kubernetes.io/instance: my-pipeline
+              app.kubernetes.io/instance: my-triggers
           topologyKey: failure-domain.beta.kubernetes.io/zone
 ```
 
