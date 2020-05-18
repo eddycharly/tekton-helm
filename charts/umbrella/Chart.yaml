@@ -1,0 +1,28 @@
+name: umbrella
+icon: https://tekton.dev/images/tekton-horizontal-color.png
+apiVersion: v2
+version: 0.0.1
+appVersion: 0.0.1
+dependencies:
+  - name: pipelines
+    repository: ../
+    condition: pipelines.enabled
+  - name: triggers
+    repository: ../
+    condition: triggers.enabled
+  - name: dashboard
+    repository: ../
+    condition: dashboard.enabled
+keywords:
+  - helm
+  - tekton
+  - tektoncd
+  - umbrella
+maintainers:
+  - name: eddycharly
+    email: ceb@agriconomie.com
+description: |
+  This chart bootstraps installation of Tekton components:
+  - [tekton pipeline](https://github.com/tektoncd/pipeline)
+  - [tekton triggers](https://github.com/tektoncd/triggers)
+  - [tekton dashboard](https://github.com/tektoncd/dashboard)

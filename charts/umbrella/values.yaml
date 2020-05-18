@@ -1,0 +1,8 @@
+pipelines:
+  enabled: true
+
+triggers:
+  enabled: true
+
+dashboard:
+  enabled: true
