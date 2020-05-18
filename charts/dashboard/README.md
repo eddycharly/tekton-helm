@@ -81,7 +81,7 @@ helm uninstall my-dashboard --namespace tekton
 
 ## Version
 
-Current chart version is `0.6.3`
+Current chart version is `0.6.4`
 
 ## Chart Values
 
@@ -92,7 +92,7 @@ Current chart version is `0.6.3`
 | `dashboard.annotations` | object | Dashboard pod annotations | See [values.yaml](./values.yaml) |
 | `dashboard.image.pullPolicy` | string | Dashboard docker image pull policy | `"IfNotPresent"` |
 | `dashboard.image.repository` | string | Dashboard docker image repository | `"gcr.io/tekton-releases/github.com/tektoncd/dashboard/cmd/dashboard"` |
-| `dashboard.image.tag` | string | Dashboard docker image tag | `"v0.6.1"` |
+| `dashboard.image.tag` | string | Dashboard docker image tag | `nil` |
 | `dashboard.ingress.annotations` | object | Dashboard ingress annotations | `{}` |
 | `dashboard.ingress.enabled` | bool | Enable dashboard ingress | `false` |
 | `dashboard.ingress.hosts` | list | Dashboard ingress host names | `[]` |

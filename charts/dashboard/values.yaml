@@ -20,7 +20,7 @@ dashboard:
     repository: gcr.io/tekton-releases/github.com/tektoncd/dashboard/cmd/dashboard
 
     # dashboard.image.tag -- Dashboard docker image tag
-    tag: v0.6.1
+    tag:
 
     # dashboard.image.pullPolicy -- Dashboard docker image pull policy
     pullPolicy: IfNotPresent
