@@ -3,6 +3,26 @@ entries:
   dashboard:
   - apiVersion: v1
     appVersion: 0.6.1
+    created: "2020-05-18T09:38:16.973836738Z"
+    description: |
+      This chart bootstraps installation of [tekton dashboard](https://github.com/tektoncd/dashboard).
+    digest: b3e3580756ce874927f7eec5891df550f0fd126a25ede2f4b0612555dfaec48b
+    home: https://github.com/tektoncd/dashboard
+    icon: https://tekton.dev/images/tekton-horizontal-color.png
+    keywords:
+    - helm
+    - tekton
+    - tektoncd
+    - dashboard
+    maintainers:
+    - email: ceb@agriconomie.com
+      name: eddycharly
+    name: dashboard
+    urls:
+    - https://github.com/eddycharly/tekton-helm/releases/download/dashboard-0.6.3/dashboard-0.6.3.tgz
+    version: 0.6.3
+  - apiVersion: v1
+    appVersion: 0.6.1
     created: "2020-05-18T08:50:39.647885022Z"
     description: |
       This chart bootstraps installation of [tekton dashboard](https://github.com/tektoncd/dashboard).
@@ -42,6 +62,27 @@ entries:
     - https://github.com/eddycharly/tekton-helm/releases/download/dashboard-0.6.1/dashboard-0.6.1.tgz
     version: 0.6.1
   pipelines:
+  - apiVersion: v1
+    appVersion: 0.11.3
+    created: "2020-05-18T09:38:17.12104585Z"
+    description: |
+      This chart bootstraps installation of [tekton pipeline](https://github.com/tektoncd/pipeline).
+    digest: 88f63fd90d58eb3fbeccce252f2c1d892b5e95274c6aa213581802c8692e9506
+    home: https://github.com/tektoncd/pipeline
+    icon: https://tekton.dev/images/tekton-horizontal-color.png
+    keywords:
+    - helm
+    - tekton
+    - tektoncd
+    - pipeline
+    - pipelines
+    maintainers:
+    - email: ceb@agriconomie.com
+      name: eddycharly
+    name: pipelines
+    urls:
+    - https://github.com/eddycharly/tekton-helm/releases/download/pipelines-0.11.5/pipelines-0.11.5.tgz
+    version: 0.11.5
   - apiVersion: v1
     appVersion: 0.11.3
     created: "2020-05-18T08:35:09.857473193Z"
@@ -84,4 +125,25 @@ entries:
     urls:
     - https://github.com/eddycharly/tekton-helm/releases/download/pipelines-0.11.3/pipelines-0.11.3.tgz
     version: 0.11.3
+  triggers:
+  - apiVersion: v1
+    appVersion: 0.4.0
+    created: "2020-05-18T09:38:17.200399757Z"
+    description: |
+      This chart bootstraps installation of [tekton triggers](https://github.com/tektoncd/triggers).
+    digest: 373796d32305c3d6d651004be9c20436b3c11f4d3a4f342f57ad2687ecb68967
+    home: https://github.com/tektoncd/triggers
+    icon: https://tekton.dev/images/tekton-horizontal-color.png
+    keywords:
+    - helm
+    - tekton
+    - tektoncd
+    - triggers
+    maintainers:
+    - email: ceb@agriconomie.com
+      name: eddycharly
+    name: triggers
+    urls:
+    - https://github.com/eddycharly/tekton-helm/releases/download/triggers-0.4.0/triggers-0.4.0.tgz
+    version: 0.4.0
 generated: "2020-05-17T13:13:59.10282414Z"
