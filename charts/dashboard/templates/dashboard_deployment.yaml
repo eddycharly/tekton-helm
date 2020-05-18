@@ -44,7 +44,7 @@ spec:
       {{- end }}
       containers:
         - name: dashboard
-          image: {{ printf "%s:%s" .Values.dashboard.image.repository .Values.dashboard.image.tag | quote }}
+          image: {{ template "dashboard.image" . }}
           imagePullPolicy: {{ .Values.dashboard.image.pullPolicy | quote }}
           env:
             - name: PORT

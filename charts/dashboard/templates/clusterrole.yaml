@@ -44,8 +44,10 @@ rules:
       - ''
     resources:
       - secrets
-      - configmaps
     verbs:
+      - get
+      - list
+      - watch
       - create
       - update
       - delete
@@ -171,15 +173,6 @@ rules:
       - pods/log
       - namespaces
       - events
-    verbs:
-      - get
-      - list
-      - watch
-  - apiGroups:
-      - ''
-    resources:
-      - secrets
-      - configmaps
     verbs:
       - get
       - list

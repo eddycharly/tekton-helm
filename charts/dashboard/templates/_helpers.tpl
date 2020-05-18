@@ -39,6 +39,13 @@ Create version.
 {{- end -}}
 
 {{/*
+Create image.
+*/}}
+{{- define "dashboard.image" -}}
+{{ printf "%s:%s" .Values.dashboard.image.repository (default .Chart.AppVersion .Values.dashboard.image.tag) }}
+{{- end -}}
+
+{{/*
 Create the name of the service account to use
 */}}
 {{- define "dashboard.serviceAccountName" -}}
