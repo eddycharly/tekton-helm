@@ -1,18 +1,21 @@
 # version -- Tekton pipelines version used to add labels on deployments, pods and services
-version: v0.11.3
+version:
 
 # nameOverride -- Partially override resource generated names
-nameOverride: ""
+nameOverride: ''
 
 # fullnameOverride -- Fully override resource generated names
-fullnameOverride: ""
+fullnameOverride: ''
 
 rbac:
   # rbac.create -- Create RBAC resources
   create: true
 
-  # rbac.serviceAccountName -- Name of the service account to use when rbac.create is false
-  serviceAccountName:
+  # rbac.controllerServiceAccount -- Name of the service account to use for controller when rbac.create is false
+  controllerServiceAccount:
+
+  # rbac.webhookServiceAccount -- Name of the service account to use for webhook when rbac.create is false
+  webhookServiceAccount:
 
 podSecurityPolicy:
   # podSecurityPolicy.enabled -- Enable pod security policy
@@ -174,7 +177,7 @@ controller:
     repository: gcr.io/tekton-releases/github.com/tektoncd/pipeline/cmd/controller
 
     # controller.image.tag -- Controller docker image tag
-    tag: v0.11.3
+    tag:
 
     # controller.image.pullPolicy -- Controller docker image pull policy
     pullPolicy: IfNotPresent
@@ -203,25 +206,25 @@ controller:
   # @default -- See [values.yaml](./values.yaml)
   args:
     - -kubeconfig-writer-image
-    - gcr.io/tekton-releases/github.com/tektoncd/pipeline/cmd/kubeconfigwriter:v0.11.3
+    - gcr.io/tekton-releases/github.com/tektoncd/pipeline/cmd/kubeconfigwriter:v0.12.1
     - -creds-image
-    - gcr.io/tekton-releases/github.com/tektoncd/pipeline/cmd/creds-init:v0.11.3
+    - gcr.io/tekton-releases/github.com/tektoncd/pipeline/cmd/creds-init:v0.12.1
     - -git-image
-    - gcr.io/tekton-releases/github.com/tektoncd/pipeline/cmd/git-init:v0.11.3
+    - gcr.io/tekton-releases/github.com/tektoncd/pipeline/cmd/git-init:v0.12.1
     - -nop-image
-    - tianon/true
+    - tianon/true@sha256:009cce421096698832595ce039aa13fa44327d96beedb84282a69d3dbcf5a81b
     - -shell-image
-    - busybox
+    - busybox@sha256:a2490cec4484ee6c1068ba3a05f89934010c85242f736280b35343483b2264b6
     - -gsutil-image
-    - google/cloud-sdk
+    - google/cloud-sdk@sha256:6e8676464c7581b2dc824956b112a61c95e4144642bec035e6db38e3384cae2e
     - -entrypoint-image
-    - gcr.io/tekton-releases/github.com/tektoncd/pipeline/cmd/entrypoint:v0.11.3
+    - gcr.io/tekton-releases/github.com/tektoncd/pipeline/cmd/entrypoint:v0.12.1
     - -imagedigest-exporter-image
-    - gcr.io/tekton-releases/github.com/tektoncd/pipeline/cmd/imagedigestexporter:v0.11.3
+    - gcr.io/tekton-releases/github.com/tektoncd/pipeline/cmd/imagedigestexporter:v0.12.1
     - -pr-image
-    - gcr.io/tekton-releases/github.com/tektoncd/pipeline/cmd/pullrequest-init:v0.11.3
+    - gcr.io/tekton-releases/github.com/tektoncd/pipeline/cmd/pullrequest-init:v0.12.1
     - -build-gcs-fetcher-image
-    - gcr.io/tekton-releases/github.com/tektoncd/pipeline/vendor/github.com/googlecloudplatform/cloud-builders/gcs-fetcher/cmd/gcs-fetcher:v0.11.3
+    - gcr.io/tekton-releases/github.com/tektoncd/pipeline/vendor/github.com/googlecloudplatform/cloud-builders/gcs-fetcher/cmd/gcs-fetcher:v0.12.1
 
   service:
     # controller.service.type -- Controller service type
@@ -246,7 +249,7 @@ webhook:
     repository: gcr.io/tekton-releases/github.com/tektoncd/pipeline/cmd/webhook
 
     # webhook.image.tag -- Webhook docker image tag
-    tag: v0.11.3
+    tag:
 
     # webhook.image.pullPolicy -- Webhook docker image pull policy
     pullPolicy: IfNotPresent

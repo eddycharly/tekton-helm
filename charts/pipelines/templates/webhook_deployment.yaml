@@ -32,7 +32,7 @@ spec:
         {{- include "pipelines.componentLabels" "webhook" | nindent 8 }}
         {{- include "pipelines.nameLabels" "webhook" | nindent 8 }}
     spec:
-      serviceAccountName: {{ template "pipelines.serviceAccountName" . }}
+      serviceAccountName: {{ template "pipelines.webhookServiceAccount" . }}
       {{- with .Values.webhook.securityContext }}
       securityContext:
         {{- toYaml . | nindent 8 }}
@@ -51,21 +51,25 @@ spec:
       {{- end }}
       containers:
         - name: webhook
-          image: {{ printf "%s:%s" .Values.webhook.image.repository .Values.webhook.image.tag | quote }}
+          image: {{ template "pipelines.webhookImage" . }}
           imagePullPolicy: {{ .Values.webhook.image.pullPolicy | quote }}
           env:
             - name: SYSTEM_NAMESPACE
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
-            # - name: CONFIG_DEFAULTS_NAME
-            #   value: {{ template "pipelines.fullname" . }}-defaults
+            - name: CONFIG_DEFAULTS_NAME
+              value: {{ template "pipelines.fullname" . }}-defaults
             - name: CONFIG_LOGGING_NAME
               value: {{ template "pipelines.fullname" . }}-logging
             - name: CONFIG_OBSERVABILITY_NAME
               value: {{ template "pipelines.fullname" . }}-observability
             - name: WEBHOOK_SERVICE_NAME
               value: {{ template "pipelines.fullname" . }}-webhook
+            - name: CONFIG_LEADERELECTION_NAME
+              value: {{ template "pipelines.fullname" . }}-leader-election
+            - name: WEBHOOK_SECRET_NAME
+              value: {{ template "pipelines.fullname" . }}
             - name: METRICS_DOMAIN
               value: tekton.dev/pipeline
           securityContext:

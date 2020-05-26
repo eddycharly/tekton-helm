@@ -23,8 +23,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  # name: {{ template "pipelines.fullname" . }}-defaults
-  name: config-defaults
+  name: {{ template "pipelines.fullname" . }}-defaults
   labels:
     {{- include "pipelines.baseLabels" . | nindent 4 }}
     {{- include "pipelines.helmLabels" . | nindent 4 }}

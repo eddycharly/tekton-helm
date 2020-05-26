@@ -28,7 +28,7 @@ spec:
         {{- include "pipelines.componentLabels" "controller" | nindent 8 }}
         {{- include "pipelines.nameLabels" "controller" | nindent 8 }}
     spec:
-      serviceAccountName: {{ template "pipelines.serviceAccountName" . }}
+      serviceAccountName: {{ template "pipelines.controllerServiceAccount" . }}
       {{- with .Values.controller.securityContext }}
       securityContext:
         {{- toYaml . | nindent 8 }}
@@ -47,7 +47,7 @@ spec:
       {{- end }}
       containers:
         - name: controller
-          image: {{ printf "%s:%s" .Values.controller.image.repository .Values.controller.image.tag | quote }}
+          image: {{ template "pipelines.controllerImage" . }}
           imagePullPolicy: {{ .Values.controller.image.pullPolicy | quote }}
           args:
           {{- range .Values.controller.args }}
@@ -58,8 +58,8 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
-            # - name: CONFIG_DEFAULTS_NAME
-            #   value: {{ template "pipelines.fullname" . }}-defaults
+            - name: CONFIG_DEFAULTS_NAME
+              value: {{ template "pipelines.fullname" . }}-defaults
             - name: CONFIG_LOGGING_NAME
               value: {{ template "pipelines.fullname" . }}-logging
             - name: CONFIG_OBSERVABILITY_NAME
@@ -68,6 +68,10 @@ spec:
               value: {{ template "pipelines.fullname" . }}-artifact-bucket
             - name: CONFIG_ARTIFACT_PVC_NAME
               value: {{ template "pipelines.fullname" . }}-artifact-pvc
+            - name: CONFIG_FEATURE_FLAGS_NAME
+              value: {{ template "pipelines.fullname" . }}-feature-flags
+            - name: CONFIG_LEADERELECTION_NAME
+              value: {{ template "pipelines.fullname" . }}-leader-election
             - name: METRICS_DOMAIN
               value: tekton.dev/pipeline
           volumeMounts:

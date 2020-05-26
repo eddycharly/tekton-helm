@@ -1,0 +1,33 @@
+{{- if .Values.rbac.create }}
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: {{ template "pipelines.fullname" . }}
+  labels:
+    {{- include "pipelines.baseLabels" . | nindent 4 }}
+    {{- include "pipelines.helmLabels" . | nindent 4 }}
+    {{- include "pipelines.componentLabels" "controller" | nindent 4 }}
+rules:
+  - apiGroups:
+      - ''
+    resources:
+      - configmaps
+    verbs:
+      - list
+      - watch
+  # The controller needs access to these configmaps for logging information and runtime configuration.
+  - apiGroups:
+      - ''
+    resources:
+      - configmaps
+    verbs:
+      - get
+    resourceNames:
+      - {{ template "pipelines.fullname" . }}-artifact-bucket
+      - {{ template "pipelines.fullname" . }}-artifact-pvc
+      # - {{ template "pipelines.fullname" . }}-defaults
+      - {{ template "pipelines.fullname" . }}-feature-flags
+      - {{ template "pipelines.fullname" . }}-leader-election
+      - {{ template "pipelines.fullname" . }}-logging
+      - {{ template "pipelines.fullname" . }}-observability
+{{- end }}

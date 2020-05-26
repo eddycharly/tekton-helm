@@ -60,9 +60,9 @@ helm upgrade --install my-pipeline --namespace tekton eddycharly/pipelines --ski
 # This will install Tekton Pipelines in the tekton namespace (with a my-pipeline release name)
 
 # Helm v2
-helm upgrade --install my-pipeline --namespace tekton eddycharly/pipelines --set rbac.create=false --set rbac.serviceAccountName=svcAccountName
+helm upgrade --install my-pipeline --namespace tekton eddycharly/pipelines --set rbac.create=false --set rbac.controllerServiceAccount=accountName  --set rbac.webhookServiceAccount=accountName
 # Helm v3
-helm upgrade --install my-pipeline --namespace tekton eddycharly/pipelines --set rbac.create=false --set rbac.serviceAccountName=svcAccountName
+helm upgrade --install my-pipeline --namespace tekton eddycharly/pipelines --set rbac.create=false --set rbac.controllerServiceAccount=accountName  --set rbac.webhookServiceAccount=accountName
 ```
 
 Look [below](#chart-values) for the list of all available options and their corresponding description.
@@ -82,7 +82,7 @@ helm uninstall my-pipeline --namespace tekton
 
 ## Version
 
-Current chart version is `0.11.5`
+Current chart version is `0.12.0`
 
 ## Chart Values
 
@@ -101,7 +101,7 @@ Current chart version is `0.11.5`
 | `controller.args` | list | Controller arguments | See [values.yaml](./values.yaml) |
 | `controller.image.pullPolicy` | string | Controller docker image pull policy | `"IfNotPresent"` |
 | `controller.image.repository` | string | Controller docker image repository | `"gcr.io/tekton-releases/github.com/tektoncd/pipeline/cmd/controller"` |
-| `controller.image.tag` | string | Controller docker image tag | `"v0.11.3"` |
+| `controller.image.tag` | string | Controller docker image tag | `nil` |
 | `controller.metrics.enabled` | bool | Enable controller metrics service | `true` |
 | `controller.metrics.port` | int | Controller metrics service port | `9090` |
 | `controller.metrics.portName` | string |  | `"metrics"` |
@@ -114,14 +114,15 @@ Current chart version is `0.11.5`
 | `fullnameOverride` | string | Fully override resource generated names | `""` |
 | `nameOverride` | string | Partially override resource generated names | `""` |
 | `podSecurityPolicy.enabled` | bool | Enable pod security policy | `false` |
+| `rbac.controllerServiceAccount` | string | Name of the service account to use for controller when rbac.create is false | `nil` |
 | `rbac.create` | bool | Create RBAC resources | `true` |
-| `rbac.serviceAccountName` | string | Name of the service account to use when rbac.create is false | `nil` |
-| `version` | string | Tekton pipelines version used to add labels on deployments, pods and services | `"v0.11.3"` |
+| `rbac.webhookServiceAccount` | string | Name of the service account to use for webhook when rbac.create is false | `nil` |
+| `version` | string | Tekton pipelines version used to add labels on deployments, pods and services | `nil` |
 | `webhook.affinity` | object | Webhook affinity rules | `{}` |
 | `webhook.annotations` | object | Webhook pod annotations | See [values.yaml](./values.yaml) |
 | `webhook.image.pullPolicy` | string | Webhook docker image pull policy | `"IfNotPresent"` |
 | `webhook.image.repository` | string | Webhook docker image repository | `"gcr.io/tekton-releases/github.com/tektoncd/pipeline/cmd/webhook"` |
-| `webhook.image.tag` | string | Webhook docker image tag | `"v0.11.3"` |
+| `webhook.image.tag` | string | Webhook docker image tag | `nil` |
 | `webhook.metrics.enabled` | bool | Enable webhook metrics service | `true` |
 | `webhook.metrics.port` | int | Webhook metrics service port | `9090` |
 | `webhook.metrics.portName` | string | Webhook metrics service port name | `"http-metrics"` |
