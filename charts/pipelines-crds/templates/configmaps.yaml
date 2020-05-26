@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "pipelinesCrds.fullname" . }}-defaults
+  labels:
+    {{- include "pipelinesCrds.baseLabels" . | nindent 4 }}
+    {{- include "pipelinesCrds.helmLabels" . | nindent 4 }}
+data:
+{{ .Values.config.defaults | toYaml | indent 2 }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "pipelinesCrds.fullname" . }}-leader-election
+  labels:
+    {{- include "pipelinesCrds.baseLabels" . | nindent 4 }}
+    {{- include "pipelinesCrds.helmLabels" . | nindent 4 }}
+data:
+{{ .Values.config.leaderElection | toYaml | indent 2 }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "pipelinesCrds.fullname" . }}-logging
+  labels:
+    {{- include "pipelinesCrds.baseLabels" . | nindent 4 }}
+    {{- include "pipelinesCrds.helmLabels" . | nindent 4 }}
+data:
+{{ .Values.config.logging | toYaml | indent 2 }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "pipelinesCrds.fullname" . }}-observability
+  labels:
+    {{- include "pipelinesCrds.baseLabels" . | nindent 4 }}
+    {{- include "pipelinesCrds.helmLabels" . | nindent 4 }}
+data:
+{{ .Values.config.observability | toYaml | indent 2 }}

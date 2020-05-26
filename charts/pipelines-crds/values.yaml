@@ -1,0 +1,212 @@
+# version -- Tekton pipelines version used to add labels on deployments, pods and services
+version:
+
+# nameOverride -- Partially override resource generated names
+nameOverride: ''
+
+# fullnameOverride -- Fully override resource generated names
+fullnameOverride: ''
+
+rbac:
+  # rbac.create -- Create RBAC resources
+  create: true
+
+  # rbac.webhookServiceAccount -- Name of the service account to use for webhook when rbac.create is false
+  webhookServiceAccount:
+
+podSecurityPolicy:
+  # podSecurityPolicy.enabled -- Enable pod security policy
+  enabled: false
+
+config:
+  # config.defaults -- Configuration for default values (see https://github.com/tektoncd/pipeline/blob/master/docs/install.md)
+  # @default -- See [values.yaml](./values.yaml)
+  defaults:
+    _example: |-
+      ################################
+      #                              #
+      #    EXAMPLE CONFIGURATION     #
+      #                              #
+      ################################
+
+      # This block is not actually functional configuration,
+      # but serves to illustrate the available configuration
+      # options and document them in a way that is accessible
+      # to users that `kubectl edit` this config map.
+      #
+      # These sample configuration options may be copied out of
+      # this example block and unindented to be in the data block
+      # to actually change the configuration.
+
+      # default-timeout-minutes contains the default number of
+      # minutes to use for TaskRun and PipelineRun, if none is specified.
+      default-timeout-minutes: "60"  # 60 minutes
+
+      # default-service-account contains the default service account name
+      # to use for TaskRun and PipelineRun, if none is specified.
+      default-service-account: "default"
+
+      # default-managed-by-label-value contains the default value given to the
+      # "app.kubernetes.io/managed-by" label applied to all Pods created for
+      # TaskRuns. If a user's requested TaskRun specifies another value for this
+      # label, the user's request supercedes.
+      default-managed-by-label-value: "tekton-pipelines"
+
+      # default-pod-template contains the default pod template to use
+      # TaskRun and PipelineRun, if none is specified. If a pod template
+      # is specified, the default pod template is ignored.
+      # default-pod-template:
+
+
+  # config.leaderElection -- Configuration for leader election
+  # @default -- See [values.yaml](./values.yaml)
+  leaderElection:
+    # An inactive but valid configuration follows; see example.
+    resourceLock: "leases"
+    leaseDuration: "15s"
+    renewDeadline: "10s"
+    retryPeriod: "2s"
+
+  # config.logging -- Configuration for logging (see https://github.com/tektoncd/pipeline/blob/master/docs/install.md)
+  # @default -- See [values.yaml](./values.yaml)
+  logging:
+    # Common configuration for all knative codebase
+    zap-logger-config: |
+      {
+        "level": "info",
+        "development": false,
+        "sampling": {
+          "initial": 100,
+          "thereafter": 100
+        },
+        "outputPaths": ["stdout"],
+        "errorOutputPaths": ["stderr"],
+        "encoding": "json",
+        "encoderConfig": {
+          "timeKey": "",
+          "levelKey": "level",
+          "nameKey": "logger",
+          "callerKey": "caller",
+          "messageKey": "msg",
+          "stacktraceKey": "stacktrace",
+          "lineEnding": "",
+          "levelEncoder": "",
+          "timeEncoder": "",
+          "durationEncoder": "",
+          "callerEncoder": ""
+        }
+      }
+    # Log level overrides
+    loglevel.controller: "info"
+    loglevel.webhook: "info"
+
+  # config.observability -- Configuration for observability (see https://github.com/tektoncd/pipeline/blob/master/docs/install.md)
+  # @default -- See [values.yaml](./values.yaml)
+  observability:
+    _example: |
+      ################################
+      #                              #
+      #    EXAMPLE CONFIGURATION     #
+      #                              #
+      ################################
+
+      # This block is not actually functional configuration,
+      # but serves to illustrate the available configuration
+      # options and document them in a way that is accessible
+      # to users that `kubectl edit` this config map.
+      #
+      # These sample configuration options may be copied out of
+      # this example block and unindented to be in the data block
+      # to actually change the configuration.
+
+      # metrics.backend-destination field specifies the system metrics destination.
+      # It supports either prometheus (the default) or stackdriver.
+      # Note: Using Stackdriver will incur additional charges.
+      metrics.backend-destination: prometheus
+
+      # metrics.stackdriver-project-id field specifies the Stackdriver project ID. This
+      # field is optional. When running on GCE, application default credentials will be
+      # used and metrics will be sent to the cluster's project if this field is
+      # not provided.
+      metrics.stackdriver-project-id: "<your stackdriver project id>"
+
+      # metrics.allow-stackdriver-custom-metrics indicates whether it is allowed
+      # to send metrics to Stackdriver using "global" resource type and custom
+      # metric type. Setting this flag to "true" could cause extra Stackdriver
+      # charge.  If metrics.backend-destination is not Stackdriver, this is
+      # ignored.
+      metrics.allow-stackdriver-custom-metrics: "false"
+
+webhook:
+  image:
+    # webhook.image.repository -- Webhook docker image repository
+    repository: gcr.io/tekton-releases/github.com/tektoncd/pipeline/cmd/webhook
+
+    # webhook.image.tag -- Webhook docker image tag
+    tag:
+
+    # webhook.image.pullPolicy -- Webhook docker image pull policy
+    pullPolicy: IfNotPresent
+
+  # webhook.replicas -- Webhook replicas
+  replicas: 1
+
+  # webhook.annotations -- Webhook pod annotations
+  # @default -- See [values.yaml](./values.yaml)
+  annotations:
+    cluster-autoscaler.kubernetes.io/safe-to-evict: 'false'
+
+  # webhook.nodeSelector -- Webhook node selector
+  nodeSelector: {}
+
+  # webhook.affinity -- Webhook affinity rules
+  affinity: {}
+
+  # webhook.tolerations -- Webhook tolerations
+  tolerations: []
+
+  # webhook.resources -- Webhook resource limits and requests
+  resources: {}
+
+  # webhook.updateStrategy -- Webhook pods update strategy
+  updateStrategy: {}
+
+  # webhook.securityContext -- Webhook pods security context
+  securityContext: {}
+
+  podDisruptionBudget:
+    # webhook.podDisruptionBudget.enabled -- Enable pod disruption budget for webhook
+    ennabled: false
+
+    # webhook.podDisruptionBudget.minAvailable -- Minimum available webhook pods
+    minAvailable: 1
+
+    # webhook.podDisruptionBudget.maxUnavailable -- Maximum unavailable webhook pods
+    maxUnavailable: 1
+
+  service:
+    # webhook.service.type -- Webhook service type
+    type: ClusterIP
+
+    # webhook.service.annotations -- Webhook service annotations
+    annotations: {}
+
+  metrics:
+    # webhook.metrics.enabled -- Enable webhook metrics service
+    enabled: true
+
+    # webhook.metrics.port -- Webhook metrics service port
+    port: 9090
+
+    # webhook.metrics.portName -- Webhook metrics service port name
+    portName: http-metrics
+
+  profiling:
+    # webhook.profiling.enabled -- Enable pebhook profiling service
+    enabled: true
+
+    # webhook.profiling.port -- Webhook profiling service port
+    port: 8008
+
+    # webhook.profiling.portName -- Webhook profiling service port name
+    portName: http-profiling

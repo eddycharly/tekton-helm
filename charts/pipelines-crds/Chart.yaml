@@ -1,0 +1,18 @@
+name: pipelines-crds
+icon: https://tekton.dev/images/tekton-horizontal-color.png
+apiVersion: v1
+version: 0.12.0
+appVersion: v0.12.1
+home: https://github.com/tektoncd/pipeline
+keywords:
+  - helm
+  - tekton
+  - tektoncd
+  - pipeline
+  - pipelines
+  - crds
+maintainers:
+  - name: eddycharly
+    email: ceb@agriconomie.com
+description: |
+  This chart bootstraps installation of CRDs for [tekton pipeline](https://github.com/tektoncd/pipeline).

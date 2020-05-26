@@ -1,0 +1,18 @@
+{{- if .Values.rbac.create }}
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: RoleBinding
+metadata:
+  name: {{ template "pipelinesCrds.fullname" . }}-webhook
+  labels:
+    {{- include "pipelinesCrds.baseLabels" . | nindent 4 }}
+    {{- include "pipelinesCrds.helmLabels" . | nindent 4 }}
+    {{- include "pipelinesCrds.componentLabels" "webhook" | nindent 4 }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: {{ template "pipelinesCrds.fullname" . }}-webhook
+subjects:
+  - kind: ServiceAccount
+    name: {{ template "pipelinesCrds.webhookServiceAccount" . }}
+    namespace: {{ .Release.Namespace }}
+{{- end }}

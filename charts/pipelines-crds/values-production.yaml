@@ -1,0 +1,43 @@
+podSecurityPolicy:
+  enabled: true
+
+webhook:
+  resources:
+    requests:
+      cpu: 0.5
+      memory: 128m
+    limits:
+      cpu: 0.5
+      memory: 128m
+
+  replicas: 3
+
+  affinity:
+    podAntiAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+        - labelSelector:
+            matchLabels:
+              app.kubernetes.io/component: webhook
+              app.kubernetes.io/instance: my-pipeline
+          topologyKey: failure-domain.beta.kubernetes.io/zone
+
+  service:
+    annotations:
+      prometheus.io/scrape: 'true'
+      prometheus.io/port: '9090'
+
+  metrics:
+    enabled: true
+    port: 9090
+    portName: metrics
+
+  podDisruptionBudget:
+    ennabled: true
+    minAvailable: 1
+    maxUnavailable: 1
+
+  updateStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1

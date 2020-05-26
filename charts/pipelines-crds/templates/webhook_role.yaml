@@ -1,0 +1,47 @@
+{{- if .Values.rbac.create }}
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: {{ template "pipelinesCrds.fullname" . }}-webhook
+  labels:
+    {{- include "pipelinesCrds.baseLabels" . | nindent 4 }}
+    {{- include "pipelinesCrds.helmLabels" . | nindent 4 }}
+    {{- include "pipelinesCrds.componentLabels" "webhook" | nindent 4 }}
+rules:
+  - apiGroups:
+      - ''
+    resources:
+      - configmaps
+    verbs:
+      - list
+      - watch
+  # The webhook needs access to these configmaps for logging information.
+  - apiGroups:
+      - ''
+    resources:
+      - configmaps
+    verbs:
+      - get
+    resourceNames:
+      - {{ template "pipelinesCrds.fullname" . }}-logging
+      - {{ template "pipelinesCrds.fullname" . }}-observability
+  - apiGroups:
+      - ''
+    resources:
+      - secrets
+    verbs:
+      - list
+      - watch
+  # The webhook daemon makes a reconciliation loop on webhook-certs. Whenever
+  # the secret changes it updates the webhook configurations with the certificates
+  # stored in the secret.
+  - apiGroups:
+      - ''
+    resources:
+      - secrets
+    verbs:
+      - get
+      - update
+    resourceNames:
+      - {{ template "pipelinesCrds.fullname" . }}
+{{- end }}

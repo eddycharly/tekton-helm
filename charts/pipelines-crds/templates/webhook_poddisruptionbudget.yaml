@@ -1,0 +1,24 @@
+{{- if .Values.webhook.podDisruptionBudget.enabled }}
+{{- if gt (.Values.webhook.replicas | int) 1 }}
+apiVersion: policy/v1beta1
+kind: PodDisruptionBudget
+metadata:
+  name: {{ template "pipelinesCrds.fullname" . }}-webhook
+  labels:
+    {{- include "pipelinesCrds.baseLabels" . | nindent 4 }}
+    {{- include "pipelinesCrds.helmLabels" . | nindent 4 }}
+    {{- include "pipelinesCrds.componentLabels" "webhook" | nindent 4 }}
+spec:
+  selector:
+    matchLabels:
+      {{- include "pipelinesCrds.baseLabels" . | nindent 6 }}
+      {{- include "pipelinesCrds.componentLabels" "webhook" | nindent 6 }}
+      {{- include "pipelinesCrds.nameLabels" "webhook" | nindent 6 }}
+  {{- if .Values.webhook.podDisruptionBudget.minAvailable }}
+  minAvailable: {{ .Values.webhook.podDisruptionBudget.minAvailable }}
+  {{- end }}
+  {{- if .Values.webhook.podDisruptionBudget.maxUnavailable }}
+  maxUnavailable: {{ .Values.webhook.podDisruptionBudget.maxUnavailable }}
+  {{- end }}
+{{- end }}
+{{- end }}
