@@ -66,9 +66,9 @@ helm upgrade --install my-pipeline --namespace tekton eddycharly/pipelines --ski
 # This will install Tekton Pipelines in the tekton namespace (with a my-pipeline release name)
 
 # Helm v2
-helm upgrade --install my-pipeline --namespace tekton eddycharly/pipelines --set rbac.create=false --set rbac.serviceAccountName=svcAccountName
+helm upgrade --install my-pipeline --namespace tekton eddycharly/pipelines --set rbac.create=false --set rbac.controllerServiceAccount=accountName  --set rbac.webhookServiceAccount=accountName
 # Helm v3
-helm upgrade --install my-pipeline --namespace tekton eddycharly/pipelines --set rbac.create=false --set rbac.serviceAccountName=svcAccountName
+helm upgrade --install my-pipeline --namespace tekton eddycharly/pipelines --set rbac.create=false --set rbac.controllerServiceAccount=accountName  --set rbac.webhookServiceAccount=accountName
 ```
 
 Look [below](#chart-values) for the list of all available options and their corresponding description.

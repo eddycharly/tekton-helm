@@ -32,13 +32,45 @@ Create chart name and version as used by the chart label.
 {{- end -}}
 
 {{/*
-Create the name of the service account to use
+Create version.
 */}}
-{{- define "pipelines.serviceAccountName" -}}
+{{- define "pipelines.version" -}}
+{{ default .Chart.AppVersion .Values.version }}
+{{- end -}}
+
+{{/*
+Create controller image.
+*/}}
+{{- define "pipelines.controllerImage" -}}
+{{ printf "%s:%s" .Values.controller.image.repository (default .Chart.AppVersion .Values.controller.image.tag) }}
+{{- end -}}
+
+{{/*
+Create webhook image.
+*/}}
+{{- define "pipelines.webhookImage" -}}
+{{ printf "%s:%s" .Values.webhook.image.repository (default .Chart.AppVersion .Values.webhook.image.tag) }}
+{{- end -}}
+
+{{/*
+Create the name of the service account to use for controller
+*/}}
+{{- define "pipelines.controllerServiceAccount" -}}
 {{- if .Values.rbac.create -}}
 {{- template "pipelines.fullname" . -}}
 {{- else -}}
-{{- required "A service account name is required" .Values.rbac.serviceAccountName -}}
+{{- required "A service account name is required" .Values.rbac.controllerServiceAccount -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
+Create the name of the service account to use for webhook
+*/}}
+{{- define "pipelines.webhookServiceAccount" -}}
+{{- if .Values.rbac.create -}}
+{{- template "pipelines.fullname" . -}}-webhook
+{{- else -}}
+{{- required "A service account name is required" .Values.rbac.webhookServiceAccount -}}
 {{- end -}}
 {{- end -}}
 
@@ -62,9 +94,9 @@ helm.sh/chart: {{ template "pipelines.chart" . }}
 Create version labels
 */}}
 {{- define "pipelines.versionLabels" -}}
-app.kubernetes.io/version: {{ .Values.version | quote }}
-pipeline.tekton.dev/release: {{ .Values.version | quote }}
-version: {{ .Values.version | quote }}
+app.kubernetes.io/version: {{ template "pipelines.version" . }}
+pipeline.tekton.dev/release: {{ template "pipelines.version" . }}
+version: {{ template "pipelines.version" . }}
 {{- end -}}
 
 {{/*
