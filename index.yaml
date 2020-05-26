@@ -83,6 +83,27 @@ entries:
     version: 0.6.1
   pipelines:
   - apiVersion: v1
+    appVersion: v0.12.1
+    created: "2020-05-26T09:26:41.732076043Z"
+    description: |
+      This chart bootstraps installation of [tekton pipeline](https://github.com/tektoncd/pipeline).
+    digest: 72ddee05dc201571c6023033f86ceab804ccfad0d738959cc6e16ba89e227c55
+    home: https://github.com/tektoncd/pipeline
+    icon: https://tekton.dev/images/tekton-horizontal-color.png
+    keywords:
+    - helm
+    - tekton
+    - tektoncd
+    - pipeline
+    - pipelines
+    maintainers:
+    - email: ceb@agriconomie.com
+      name: eddycharly
+    name: pipelines
+    urls:
+    - https://github.com/eddycharly/tekton-helm/releases/download/pipelines-0.12.0/pipelines-0.12.0.tgz
+    version: 0.12.0
+  - apiVersion: v1
     appVersion: 0.11.3
     created: "2020-05-18T09:38:17.12104585Z"
     description: |
