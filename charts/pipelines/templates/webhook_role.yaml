@@ -43,5 +43,5 @@ rules:
       - get
       - update
     resourceNames:
-      - webhook-certs
+      - {{ template "pipelines.fullname" . }}
 {{- end }}

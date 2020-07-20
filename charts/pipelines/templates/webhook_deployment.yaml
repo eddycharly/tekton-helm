@@ -72,6 +72,8 @@ spec:
               value: {{ template "pipelines.fullname" . }}
             - name: METRICS_DOMAIN
               value: tekton.dev/pipeline
+            - name: CONFIG_FEATURE_FLAGS_NAME
+              value: {{ template "pipelines.fullname" . }}-feature-flags
           securityContext:
             allowPrivilegeEscalation: false
           {{- with .Values.webhook.resources }}
