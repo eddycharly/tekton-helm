@@ -82,7 +82,7 @@ helm uninstall my-pipeline --namespace tekton
 
 ## Version
 
-Current chart version is `0.12.0`
+Current chart version is `0.14.2`
 
 ## Chart Values
 
