@@ -13,11 +13,23 @@ metadata:
 spec:
   rules:
     {{- range .Values.dashboard.ingress.hosts }}
-    - host: {{ . | quote }}
+    - host: {{ .name }}
       http:
         paths:
-          - backend:
+          - path: {{ default "/" .path }}
+            backend:
               serviceName: {{ template "dashboard.fullname" $ }}
               servicePort: {{ $.Values.dashboard.service.port }}
     {{- end }}
+  
+  {{- if .Values.dashboard.ingress.tls}}
+  tls:
+    {{- range .Values.dashboard.ingress.hosts }}
+    {{- if .tls }}
+    - hosts:
+        - {{ .name }}
+      secretName: {{ .tlsSecret }}
+    {{- end }}
+    {{- end }}
+  {{- end }}
 {{- end }}

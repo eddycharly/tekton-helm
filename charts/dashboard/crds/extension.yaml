@@ -7,6 +7,19 @@ metadata:
   labels:
     app.kubernetes.io/part-of: tekton-dashboard
 spec:
+  additionalPrinterColumns:
+    - JSONPath: .spec.apiVersion
+      name: API version
+      type: string
+    - JSONPath: .spec.name
+      name: Kind
+      type: string
+    - JSONPath: .spec.displayname
+      name: Display name
+      type: string
+    - JSONPath: .metadata.creationTimestamp
+      name: Age
+      type: date
   group: dashboard.tekton.dev
   names:
     categories:
@@ -14,7 +27,18 @@ spec:
       - tekton-dashboard
     kind: Extension
     plural: extensions
+    shortNames:
+    - ext
+    - exts
+  preserveUnknownFields: false
   scope: Namespaced
   subresources:
     status: {}
-  version: v1alpha1
+  validation:
+    openAPIV3Schema:
+      type: object
+      x-kubernetes-preserve-unknown-fields: true
+  versions:
+    - name: v1alpha1
+      served: true
+      storage: true

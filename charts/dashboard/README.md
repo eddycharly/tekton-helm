@@ -81,7 +81,7 @@ helm uninstall my-dashboard --namespace tekton
 
 ## Version
 
-Current chart version is `0.6.4`
+Current chart version is `0.7.0`
 
 ## Chart Values
 
@@ -99,7 +99,7 @@ Current chart version is `0.6.4`
 | `dashboard.nodeSelector` | object | Dashboard node selector | `{}` |
 | `dashboard.readOnly` | bool | Drives running the dashboard in read only mode | `false` |
 | `dashboard.resources` | object | Dashboard resource limits and requests | `{}` |
-| `dashboard.securityContext` | object | Dashboard pods security context | `{}` |
+| `dashboard.securityContext` | object | Dashboard pods security context | `{"runAsNonRoot":true}` |
 | `dashboard.service.annotations` | object | Dashboard service annotations | `{}` |
 | `dashboard.service.port` | int | Dashboard service port | `9097` |
 | `dashboard.service.portName` | string |  | `"http"` |
