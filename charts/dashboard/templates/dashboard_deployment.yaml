@@ -46,15 +46,11 @@ spec:
         - name: dashboard
           image: {{ template "dashboard.image" . }}
           imagePullPolicy: {{ .Values.dashboard.image.pullPolicy | quote }}
+          args:
+            - --port=9097
+            - --web-dir=/var/run/ko
+            - --csrf-secure-cookie=false
           env:
-            - name: PORT
-              value: "9097"
-            - name: READ_ONLY
-              value: {{ .Values.dashboard.readOnly | quote }}
-            - name: WEB_RESOURCES_DIR
-              value: /var/run/ko/web
-            - name: PIPELINE_RUN_SERVICE_ACCOUNT
-              value: ""
             - name: INSTALLED_NAMESPACE
               valueFrom:
                 fieldRef:

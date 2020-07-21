@@ -46,7 +46,8 @@ dashboard:
   resources: {}
 
   # dashboard.securityContext -- Dashboard pods security context
-  securityContext: {}
+  securityContext:
+    runAsNonRoot: true
 
   service:
     # dashboard.service.type -- Dashboard service type
@@ -70,6 +71,10 @@ dashboard:
 
     # dashboard.ingress.hosts -- Dashboard ingress host names
     hosts: []
+    #  - name: "cicd.mycompany.com"
+    #    path: /tekton(/|$)(.*)
+    #    tls: true
+    #    tlsSecret: "tls-cicd-mycompany-com"
 
 # extensions -- Kubernetes resources extensions list
 # @default -- See [values.yaml](./values.yaml)
